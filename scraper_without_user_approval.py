@@ -17,9 +17,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 def remove_unnecessary_files(folder_path):
     ALLOWED_EXTENSIONS = ['stl', 'obj', 'gcode']
     #remove images folder
-    shutil.rmtree(f'{folder_path}/images/')
+    files = os.listdir(folder_path)
+    if 'images' in files :
+        shutil.rmtree(f'{folder_path}/images/')
     #remove unallowed files
-    for f in os.listdir(folder_path):
+    for f in files:
         if os.path.isfile(os.path.join(folder_path, f)):
             os.remove(f'{folder_path}/{f}')
     full_path= f'{os.getcwd()}\\{folder_path}\\files\\'
@@ -54,6 +56,18 @@ def download_zip(url, folder_path):
         z = zipfile.ZipFile(io.BytesIO(r.content))
         z.extractall(folder_path)
         print(f'[+] Finished downloding and unzipping file to {folder_path}.')
+        for root, subFolder, files in os.walk(f'{os.getcwd()}/{folder_path}'):
+            for item in files:
+                if os.path.isfile(os.path.join(root,item)):
+                    shutil.move(os.path.join(root,item), f'{os.getcwd()}/{folder_path}')
+
+        for root, subFolder, files in os.walk(f'{os.getcwd()}/{folder_path}'):
+            for subf in subFolder: 
+                shutil.rmtree(os.path.join(root,subf))
+        Path(f'./{folder_path}/files').mkdir(parents=True, exist_ok=True)
+        files = [ name for name in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, name))]
+        for f in files: 
+            shutil.move(os.path.join(f'{os.getcwd()}/{folder_path}',f), f'{os.getcwd()}/{folder_path}/files')
         # remove images folder and unnecessary files
         remove_unnecessary_files(folder_path)
 
@@ -113,15 +127,15 @@ for id in range(int(start_range), int(end_range)+1):
             count = 1
             folder_name = sku = product_name.split('(')[0].replace(" ", "").lower()
             Path(f'./{folder_name}').mkdir(parents=True, exist_ok=True)
-            Path(f'./{folder_name}/images~').mkdir(parents=True, exist_ok=True)
+            download_zip(url+'/zip', folder_name)
+            Path(f'./{folder_name}/images').mkdir(parents=True, exist_ok=True)
             for img in imgs:
                 src = img.get_attribute('src')
                 if 'youtube' not in src:
                     response = requests.get(src)
-                    with open(f'{folder_name}/images~/{folder_name + str(count)}.jpg', "wb") as file:
+                    with open(f'{folder_name}/images/{folder_name + str(count)}.jpg', "wb") as file:
                         file.write(response.content)
                     count = count + 1
-            download_zip(url+'/zip', folder_name)
             product_num = product_num + 1 
             products[product_num] = [product_name, url, designer_name, designer_attribute_link, description, tags, sku]
     else:
