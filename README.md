@@ -1,5 +1,5 @@
 # thg-iv-scraping
-**Make sure Python3 is install on your system**
+**Make sure Python3 is installed on your system**
 
 
 **Install dependencies** 
