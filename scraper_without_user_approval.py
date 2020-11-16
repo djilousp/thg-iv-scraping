@@ -87,7 +87,7 @@ ALLOWED_LICENSES = [
 ]
 products = {}
 product_num = 0
-for id in range(int(start_range), int(end_range)+1):
+for id in range(int(start_range), int(end_range)+1,-1):
     url = f'https://www.thingiverse.com/thing:{id}'
     if requests.get(url).status_code != 404:
         driver.get(url)

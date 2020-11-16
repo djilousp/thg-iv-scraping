@@ -87,7 +87,7 @@ ALLOWED_LICENSES = [
 ]
 products = {}
 product_num = 0
-for id in range(int(start_range), int(end_range)+1):
+for id in range(int(start_range), int(end_range)+1,-1):
     url = f'https://www.thingiverse.com/thing:{id}'
     if requests.get(url).status_code != 404:
         driver.get(url)
@@ -111,6 +111,7 @@ for id in range(int(start_range), int(end_range)+1):
 
         print(f"Product License :{License.get_attribute('text')}")
         if License.get_attribute('text') in ALLOWED_LICENSES:
+            os.system("alarm.mp3")
             # remove user approval !
             continue_scrapping = input(f"Do you want to continue [y/n] : ")
             if continue_scrapping in ['y', 'Y']:
