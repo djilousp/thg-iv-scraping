@@ -59,7 +59,10 @@ def download_zip(url, folder_path):
         for root, subFolder, files in os.walk(f'{os.getcwd()}/{folder_path}'):
             for item in files:
                 if os.path.isfile(os.path.join(root,item)):
-                    shutil.move(os.path.join(root,item), f'{os.getcwd()}/{folder_path}')
+                    if str(item) not in os.listdir(folder_path):
+                        shutil.move(os.path.join(root,item), f'{os.getcwd()}/{folder_path}')
+                    else:
+                        os.remove(os.path.join(root,item))
 
         for root, subFolder, files in os.walk(f'{os.getcwd()}/{folder_path}'):
             for subf in subFolder: 

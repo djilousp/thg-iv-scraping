@@ -59,7 +59,10 @@ def download_zip(url, folder_path):
         for root, subFolder, files in os.walk(f'{os.getcwd()}/{folder_path}'):
             for item in files:
                 if os.path.isfile(os.path.join(root,item)):
-                    shutil.move(os.path.join(root,item), f'{os.getcwd()}/{folder_path}')
+                    if str(item) not in os.listdir(folder_path):
+                        shutil.move(os.path.join(root,item), f'{os.getcwd()}/{folder_path}')
+                    else:
+                        os.remove(os.path.join(root,item))
 
         for root, subFolder, files in os.walk(f'{os.getcwd()}/{folder_path}'):
             for subf in subFolder: 
@@ -117,6 +120,7 @@ for id in range(int(start_range), int(end_range)+1,-1):
             if continue_scrapping in ['y', 'Y']:
                 product_name = driver.find_element_by_class_name(
                     'ThingPage__modelName--3CMsV').get_attribute('innerHTML')
+                product_name = re.sub('[^A-Za-z0-9]+', '', product_name)
                 designer = driver.find_element_by_class_name(
                     'ThingPage__createdBy--1fVAy').find_element(By.TAG_NAME, 'a')
                 designer_name = designer.get_attribute('text')
