@@ -143,6 +143,8 @@ for id in range(int(start_range), int(end_range)+1,-1):
                         count = count + 1
                 product_num = product_num + 1 
                 products[product_num] = [product_name, url, designer_name, designer_attribute_link, description, tags, sku]
+                products_df = pd.DataFrame.from_dict(products, orient='index', columns = ['Product Name', 'Product URL' ,'Designer Name', 'Designer Attribute Link', 'Description', 'Tags', 'SKU'])
+                products_df.to_csv('products.csv')
     else:
         print(f'page with thing = {id} does not exists.')
 products_df = pd.DataFrame.from_dict(products, orient='index', columns = ['Product Name', 'Product URL' ,'Designer Name', 'Designer Attribute Link', 'Description', 'Tags', 'SKU'])
