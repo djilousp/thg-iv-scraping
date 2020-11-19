@@ -82,7 +82,7 @@ print(f'starting range at :{start_range}\nend of range :{end_range}')
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors') 
 options.add_argument('--ignore-ssl-errors')
-driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 #driver = webdriver.Chrome()
 
 ALLOWED_LICENSES = [
@@ -152,5 +152,5 @@ for id in range(int(start_range), int(end_range)+1,-1):
                 products_df.to_csv('products.csv')
     else:
         print(f'page with thing = {id} does not exists.')
-products_df = pd.DataFrame.from_dict(products, orient='index', columns = ['Product Name', 'Product URL' ,'Designer Name', 'Designer Attribute Link', 'Description', 'Tags', 'SKU'])
-products_df.to_csv('products.csv')
+# products_df = pd.DataFrame.from_dict(products, orient='index', columns = ['Product Name', 'Product URL' ,'Designer Name', 'Designer Attribute Link', 'Description', 'Tags', 'SKU'])
+# products_df.to_csv('products.csv')
