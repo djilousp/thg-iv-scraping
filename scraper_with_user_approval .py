@@ -80,7 +80,9 @@ start_range, end_range = input(
     "Please enter start, end of the range to be scapped: ").split()
 print(f'starting range at :{start_range}\nend of range :{end_range}')
 options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(ChromeDriverManager().install())
+options.add_argument('--ignore-certificate-errors') 
+options.add_argument('--ignore-ssl-errors')
+driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 #driver = webdriver.Chrome()
 
 ALLOWED_LICENSES = [
@@ -115,9 +117,9 @@ for id in range(int(start_range), int(end_range)+1,-1):
 
         print(f"Product License :{License.get_attribute('text')}")
         if License.get_attribute('text') in ALLOWED_LICENSES:
-            if alaram_counter != 0 :
+            if alarm_counter != 0 :
                 os.system("alarm.mp3")
-                alaram_counter = alaram_counter + 1
+                alarm_counter = alarm_counter + 1
             # remove user approval !
             continue_scrapping = input(f"Do you want to continue [y/n] : ")
             if continue_scrapping in ['y', 'Y']:
