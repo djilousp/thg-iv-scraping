@@ -82,7 +82,7 @@ print(f'starting range at :{start_range}\nend of range :{end_range}')
 options = webdriver.ChromeOptions()
 options.add_argument('--ignore-certificate-errors') 
 options.add_argument('--ignore-ssl-errors')
-driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 #driver = webdriver.Chrome()
 
 ALLOWED_LICENSES = [
