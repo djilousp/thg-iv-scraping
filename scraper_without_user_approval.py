@@ -80,7 +80,9 @@ start_range, end_range = input(
     "Please enter start, end of the range to be scapped: ").split()
 print(f'starting range at :{start_range}\nend of range :{end_range}')
 options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(ChromeDriverManager().install())
+options.add_argument('--ignore-certificate-errors') 
+options.add_argument('--ignore-ssl-errors')
+driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 #driver = webdriver.Chrome()
 
 ALLOWED_LICENSES = [
